@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>black or white</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background-color: burlywood;
+        }
+
+        .wrapper {
+            margin: 0 auto;
+            padding: 10px;
+            width: 340px;
+            min-height: 100vh;
+        }
+
+        .container {
+            border: 5px solid orange;
+            border-radius: 25px;
+            padding: 25px;
+        }
+
+        h1 {
+            margin-bottom: 100px;
+        }
+
+        h1 p {
+            text-align: center;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .square {
+            text-align: center;
+            font-size: 3rem;
+            margin-bottom: 50px;
+        }
+
+        .square > span {
+            position: relative;
+            min-width: 50px;
+            min-height: 50px;
+            border: 3px solid black;
+            border-radius: 50%;
+            padding: 1rem;
+            background-color: aliceblue;
+        }
+
+        .score {
+            position: absolute;
+            top: 0;
+            right: -80px;
+            font-size: 12px;
+        }
+
+        .count {
+            padding: 5px;
+            font-size: 1.3rem;
+            font-weight: bold;
+        }
+
+        .selection-panel {
+            width: 100%;
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+        }
+        
+        .btn {
+            margin: 10px;
+            width: 120px;
+            min-height: 120px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        .btn:hover {
+            box-shadow: 3px 3px 3px gray;
+        }
+        .white {
+            background-color: aliceblue;
+            border: 3px solid black;
+        }
+        .black {
+            background-color: black;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="container">
+        <h1>
+            <p>Black</p>
+            <p>Or White</p>
+        </h1>
+        <div class="square">
+            <span>
+                <span class="square-name">h7</span>
+                <span class="score">
+                    Score:
+                    <span class="count">0</span>
+                </span>
+            </span>
+        </div>
+        <div class="selection-panel">
+            <button class="btn white"></button>
+            <button class="btn black"></button>
+        </div>
+        <footer>
+            Ты начинающий шахматист или просто хочешь лучше разобраться в тонкостях игры и повысить свой уровень понимания шахмат?
+            Вступай, в нашу группу в VK: <a href="https://vk.com/chesslock">ШК "Шерлок"</a> и подписывайся на канал в telegram: <a href="https://t.me/beginnerchess">@BeginnerChess</a>
+        </footer>
+        </div>
+    </div>
+    <script>
+        const square = document.querySelector('.square-name');
+        const count = document.querySelector('.count');
+        const whiteBtn = document.querySelector('.white');
+        const blackBtn = document.querySelector('.black');
+        const files = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
+
+        let rndSquare = getRndSquare();
+        let answer = '';
+        let score = 0;
+
+        count.innerHTML = score;
+        square.innerHTML = `${rndSquare.file}${rndSquare.rank}`;
+
+        whiteBtn.addEventListener('click', () => {
+            getScore('white');
+            rndSquare = getRndSquare();
+            setSquare(rndSquare);
+        });
+        blackBtn.addEventListener('click', () => {
+            getScore('black');
+            rndSquare = getRndSquare();
+            setSquare(rndSquare);
+        });
+
+        function getRndSquare() {
+            let color;
+            let rndRank = Math.ceil(Math.random() * 8);
+            let rndFile = Math.round(Math.random() * 7);            
+            if (rndRank % 2 !== 0 && rndFile % 2 === 0 || rndRank % 2 === 0 && rndFile % 2 !== 0) {
+                color = 'black';
+            } else {
+                color = 'white';
+            }
+            return {color: `${color}`, file: `${files[rndFile]}`, rank: `${rndRank}`};
+        }
+
+        function getScore(answer) {
+            if (answer === rndSquare.color) {
+                score += 1;
+            } else {
+                score -= 1;
+            }
+            count.innerHTML = score;
+        }
+
+        function setSquare({file, rank}) {
+            square.innerHTML = `${file}${rank}`;
+        }
+
+    </script>
+</body>
+</html>
